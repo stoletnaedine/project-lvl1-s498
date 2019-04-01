@@ -43,7 +43,7 @@
         <dependency>
             <groupId>com.github.stoletnaedine</groupId>
             <artifactId>project-lvl1-s498</artifactId>
-            <version>master-SNAPSHOT</version>
+            <version>Tag</version>
         </dependency>
 
         <!-- COMMON LIBS (Log4J2 & Vavr) -->
