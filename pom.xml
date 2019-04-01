@@ -178,7 +178,6 @@
                 <version>${sonar-maven-plugin.version}</version>
             </plugin>
 
-            <!--
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
@@ -187,7 +186,6 @@
                     <rulesUri>file://${project.basedir}/maven-version-rules.xml</rulesUri>
                 </configuration>
             </plugin>
-            -->
 
         </plugins>
 
