@@ -8,3 +8,6 @@ build:
 	./mvnw clean package
 update:
 	./mvnw versions:update-properties versions:display-plugin-updates
+init:
+	mvn -N io.takari:maven:wrapper -Dmaven=3.6.0
+	chmod +x ./mvnw
