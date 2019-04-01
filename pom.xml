@@ -10,6 +10,13 @@
     <artifactId>project-lvl1-s498</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <properties>
 
         <!--Project settings-->
@@ -32,6 +39,12 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.github.stoletnaedine</groupId>
+            <artifactId>project-lvl1-s498</artifactId>
+            <version>-SNAPSHOT</version>
+        </dependency>
 
         <!-- COMMON LIBS (Log4J2 & Vavr) -->
         <dependency>
