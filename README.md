@@ -4,6 +4,6 @@
 
 
 ## How install
-in {projectPath} run
+in {project.basedir} run
 
 `make init`
