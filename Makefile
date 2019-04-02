@@ -5,7 +5,7 @@ clean:
 	rm -rf ./target
 build-run: build run
 build:
-	./mvnw clean package
+	./mvnw verify
 update:
 	./mvnw versions:update-properties versions:display-plugin-updates
 init:
