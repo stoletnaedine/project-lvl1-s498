@@ -1,2 +1,5 @@
 /target/
 /pom.xml.versionsBackup
+/mvnw.cmd
+/.mvn/
+/mvnw
