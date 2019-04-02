@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := build-run
 run:
-	java -cp ./target/project-lvl1-s498-1.0-SNAPSHOT-jar-with-dependencies.jar games.Slot
+	java -jar ./target/project-lvl1-s498-1.0-SNAPSHOT-jar-with-dependencies.jar
 clean:
 	rm -rf ./target
 build-run: build run
