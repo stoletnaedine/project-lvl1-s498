@@ -15,14 +15,25 @@ public class Slot {
         int secondCounter = 0;
         int thirdCounter = 0;
 
+        int loss;
+        int result;
+
         while (cash > 0) {
-            firstCounter = (firstCounter + randomPush() * 100) % size;
-            secondCounter = (secondCounter + randomPush() * 100) % size;
-            thirdCounter = (thirdCounter + randomPush() * 100) % size;
 
-            int loss = slotLoss(firstCounter, secondCounter, thirdCounter, bet);
+            firstCounter = (firstCounter + (int) round(random() * 100)) % size;
+            secondCounter = (secondCounter + (int) round(random() * 100)) % size;
+            thirdCounter = (thirdCounter + (int) round(random() * 100)) % size;
 
-            int result = slotResult(firstCounter, secondCounter, thirdCounter, cash, bet);
+            boolean win = firstCounter == secondCounter && firstCounter == thirdCounter;
+
+            if (win) {
+                loss = 0;
+                result = cash + 1000;
+            }
+            else {
+                loss = bet;
+                result = cash - bet;
+            }
 
             System.out.printf("У Вас %d$, ставка - %d$\n" +
                             "Крутим барабаны!Розыгрыш принёс следующие результаты:\n" +
@@ -33,17 +44,4 @@ public class Slot {
             cash = result;
         }
     }
-
-    private static int randomPush() {
-        return (int) round(random() * 100);
-    }
-
-    private static int slotLoss(int firstCounter, int secondCounter, int thirdCounter, int bet) {
-        return (firstCounter == secondCounter && firstCounter == thirdCounter) ? 0 : bet;
-    }
-
-    private static int slotResult(int firstCounter, int secondCounter, int thirdCounter, int cash, int bet) {
-        return (firstCounter == secondCounter && firstCounter == thirdCounter) ? cash + 1000 : cash - bet;
-    }
-
 }
