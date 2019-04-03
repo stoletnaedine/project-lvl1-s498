@@ -5,7 +5,7 @@ import static java.lang.Math.round;
 
 public class Slot {
 
-    public static void main(String[] args) {
+    public static void main() {
 
         int cash = 100;
         int bet = 10;
