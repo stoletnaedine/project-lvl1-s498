@@ -24,9 +24,9 @@ public class Slot {
             secondCounter = (secondCounter + (int) round(random() * 100)) % size;
             thirdCounter = (thirdCounter + (int) round(random() * 100)) % size;
 
-            boolean win = firstCounter == secondCounter && firstCounter == thirdCounter;
+            boolean isWin = firstCounter == secondCounter && firstCounter == thirdCounter;
 
-            if (win) {
+            if (isWin) {
                 loss = 0;
                 result = cash + 1000;
             }
