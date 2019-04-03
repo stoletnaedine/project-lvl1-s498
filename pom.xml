@@ -88,7 +88,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>games.Slot</mainClass>
+                            <mainClass>games.Choice</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
