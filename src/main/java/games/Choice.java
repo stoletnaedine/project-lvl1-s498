@@ -2,7 +2,8 @@ package games;
 
 import java.io.IOException;
 
-import static jdk.internal.joptsimple.internal.Strings.LINE_SEPARATOR;
+import static org.apache.logging.log4j.util.Strings.LINE_SEPARATOR;
+
 
 public class Choice {
 

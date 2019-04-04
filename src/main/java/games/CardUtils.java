@@ -23,9 +23,9 @@ public class CardUtils {
         ACE // Туз
     }
 
-    static final int PARS_TOTAL_COUNT = Drunkard.Par.values().length; //9
+    static final int PARS_TOTAL_COUNT = Par.values().length; //9
 
-    static final int CARDS_TOTAL_COUNT = PARS_TOTAL_COUNT * Drunkard.Suit.values().length; //36
+    static final int CARDS_TOTAL_COUNT = PARS_TOTAL_COUNT * Suit.values().length; //36
 
     static Suit getSuit(int cardNumber) {
         return Suit.values()[cardNumber / PARS_TOTAL_COUNT];

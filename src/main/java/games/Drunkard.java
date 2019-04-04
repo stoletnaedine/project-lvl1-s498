@@ -29,10 +29,10 @@ public class Drunkard {
         int head = playersCardHeads[playerIndex];
 
         if (tail > head) {
-            countCards = head + CARDS_TOTAL_COUNT - tail + 2;
+            countCards = head + CARDS_TOTAL_COUNT - tail + 1;
         }
         if (tail < head) {
-            countCards = head - tail + 1;
+            countCards = head - tail;
         }
         return countCards;
     }
@@ -55,9 +55,9 @@ public class Drunkard {
             playersCards[1][i] = cards[i + CARDS_TOTAL_COUNT / 2];
         }
 
-        playersCardHeads[0] = CARDS_TOTAL_COUNT / 2 - 1;
+        playersCardHeads[0] = CARDS_TOTAL_COUNT / 2;
         playersCardTails[0] = 0;
-        playersCardHeads[1] = CARDS_TOTAL_COUNT / 2 - 1;
+        playersCardHeads[1] = CARDS_TOTAL_COUNT / 2;
         playersCardTails[1] = 0;
 
         int iteration = 0;
