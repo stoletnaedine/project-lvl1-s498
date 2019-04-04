@@ -27,7 +27,7 @@ public class Drunkard {
 
     private static final int CARDS_TOTAL_COUNT = PARS_TOTAL_COUNT * Suit.values().length; //36
 
-    private static int[][] playersCards = new int[2][CARDS_TOTAL_COUNT + 1];
+    private static int[][] playersCards = new int[2][CARDS_TOTAL_COUNT];
 
     private static int[] playersCardTails = new int[2];
     private static int[] playersCardHeads = new int[2];
@@ -58,21 +58,21 @@ public class Drunkard {
     private static int countCards(int playerIndex) {
         int countCards = 0;
         if (playersCardTails[playerIndex] < playersCardHeads[playerIndex]) {
-            countCards = CARDS_TOTAL_COUNT - playersCardHeads[playerIndex] + playersCardTails[playerIndex] + 1;
+            countCards = playersCardHeads[playerIndex] - playersCardTails[playerIndex] + 1;
         }
         if (playersCardHeads[playerIndex] == playersCardTails[playerIndex]) {
             countCards = 0;
         }
-        else if (playersCardHeads[playerIndex] < playersCardTails[playerIndex]) {
-            countCards = playersCardTails[playerIndex] - playersCardHeads[playerIndex] + 1;
+        else if (playersCardTails[playerIndex] > playersCardHeads[playerIndex]) {
+            countCards = playersCardHeads[playerIndex] + CARDS_TOTAL_COUNT - playersCardTails[playerIndex]+ 1;
         }
         return countCards;
     }
 
     private static int moveCardPosition(int playerIndex, int prevPosition) {
         int position;
-        if (prevPosition == playersCardTails[playerIndex]) {
-            position = playersCardHeads[playerIndex];
+        if (prevPosition == playersCardHeads[playerIndex]) {
+            position = playersCardTails[playerIndex];
         }
         else {
             position = incrementIndex(prevPosition);
@@ -137,64 +137,75 @@ public class Drunkard {
         int brokenCardPosition;
         int newCardPosition;
 
-        int movePos0 = playersCardTails[0];
-        int movePos1 = playersCardTails[1];
-
         int iteration = 1;
 
-        while (!playerCardsIsEmpty(0) || !playerCardsIsEmpty(1) || iteration < 100) {
+        boolean winner = false;
 
-            String winner = null;
+        for (int i = 1; i < 40; i++) {
 
-            String cardToString1 = toString(playersCards[0][movePos0]);
-            String cardToString2 = toString(playersCards[1][movePos1]);
+            String result = null;
 
-            int cardValue1 = playersCards[0][movePos0] % PARS_TOTAL_COUNT;
-            int cardValue2 = playersCards[1][movePos1] % PARS_TOTAL_COUNT;
+            int movePos0 = playersCardTails[0];
+            int movePos1 = playersCardTails[1];
 
-            if (cardValue1 > cardValue2 ||
-                    (cardValue1 == 0 && cardValue2 == 8)) {
-                winner = "Выиграл игрок 1!";
+            String cardToString0 = toString(playersCards[0][movePos0]);
+            String cardToString1 = toString(playersCards[1][movePos1]);
+
+            int cardValue0 = playersCards[0][movePos0] % PARS_TOTAL_COUNT;
+            int cardValue1 = playersCards[1][movePos1] % PARS_TOTAL_COUNT;
+
+            if (cardValue0 > cardValue1 ||
+                    (cardValue0 == 0 && cardValue1 == 8)) {
+                result = "Выиграл игрок 1!";
                 playersCardTails[0] = incrementIndex(playersCardTails[0]);
-                playersCardHeads[1] = incrementIndex(playersCardHeads[1]);
-                brokenCardPosition = playersCardHeads[1];
-                newCardPosition = incrementIndex(playersCardTails[0]);
-                playersCards[0][newCardPosition] = playersCards[1][brokenCardPosition];
-            }
-            else if (cardValue1 < cardValue2 ||
-                    (cardValue1 == 8 && cardValue2 == 0)){
-                winner = "Выиграл игрок 2!";
-                playersCardTails[1] = incrementIndex(playersCardTails[1]);
                 playersCardHeads[0] = incrementIndex(playersCardHeads[0]);
-                brokenCardPosition = playersCardHeads[0];
-                newCardPosition = incrementIndex(playersCardTails[1]);
-                playersCards[1][newCardPosition] = playersCards[0][brokenCardPosition];
+                playersCards[0][playersCardHeads[0]] = playersCards[0][playersCardTails[0]];
+                newCardPosition = incrementIndex(playersCardHeads[0]);
+                brokenCardPosition = playersCardTails[1];
+                playersCards[0][newCardPosition] = playersCards[1][brokenCardPosition];
+                playersCardHeads[0] = incrementIndex(playersCardHeads[0]);
+                playersCardTails[1] = incrementIndex(playersCardTails[1]);
+                winner = true;
             }
-            else if (cardValue1 == cardValue2) {
-                winner = "Спор — каждый остаётся при своих!";
+            else if (cardValue0 < cardValue1 ||
+                    (cardValue0 == 8 && cardValue1 == 0)){
+                result = "Выиграл игрок 2!";
+                playersCardTails[1] = incrementIndex(playersCardTails[1]);
+                playersCardHeads[1] = incrementIndex(playersCardHeads[1]);
+                playersCards[1][playersCardHeads[1]] = playersCards[1][playersCardTails[1]];
+                newCardPosition = incrementIndex(playersCardHeads[1]);
+                brokenCardPosition = playersCardTails[0];
+                playersCards[1][newCardPosition] = playersCards[0][brokenCardPosition];
+                playersCardHeads[1] = incrementIndex(playersCardHeads[1]);
+                playersCardTails[0] = incrementIndex(playersCardTails[0]);
+                winner = false;
+            }
+            else if (cardValue0 == cardValue1) {
+                result = "Спор — каждый остаётся при своих!";
             }
 
-            System.out.println(cardValue1 + " - " + cardValue2);
+            System.out.println(cardValue0 + " - " + cardValue1);
 
                 System.out.printf("Итерация №%d: Игрок №1 карта: %s; игрок №2 карта: %s. \n" +
-                                winner + "\n" +
+                                result + "\n" +
                                 "У игрока №1 %d карт, у игрока №2 %d карт\n",
-                        iteration, cardToString1, cardToString2, countCards(0), countCards(1));
-            System.out.println("PLAYER 1: " + playersCardHeads[0] + " | " + playersCardTails[0]);
-            System.out.println("PLAYER 2: " + playersCardHeads[1] + " | " + playersCardTails[1]);
-            System.out.println("Ход игрока 1: " + movePos0 + "| Ход игрока 2: " + movePos1);
+                        iteration, cardToString0, cardToString1, countCards(0), countCards(1));
+            System.out.println("PLAYER 1: head " + playersCardHeads[0] + " | tail " + playersCardTails[0]);
+            System.out.println("PLAYER 2: head " + playersCardHeads[1] + " | tail " + playersCardTails[1]);
+            System.out.println("Ход 1 игрока: " + movePos0 + "| Ход 2 игрока: " + movePos1);
             System.out.println("_____");
 
             movePos0 = moveCardPosition(0, movePos0);
             movePos1 = moveCardPosition(1, movePos1);
-            System.out.println("Ход игрока 1: " + movePos0 + "| Ход игрока 2: " + movePos1);
+            System.out.println("Ход 1 игрока: " + movePos0 + "| Ход 2 игрока: " + movePos1);
             System.out.println("_________________");
             iteration++;
         }
-        if (playerCardsIsEmpty(1))
+
+        if (winner)
             System.out.printf("Выиграл первый игрок! Количество произведённых итераций: %d.", iteration);
 
-        if (playerCardsIsEmpty(0))
+        if (!winner)
             System.out.printf("Выиграл второй игрок! Количество произведённых итераций: %d.", iteration);
     }
 }
