@@ -2,47 +2,15 @@ package games;
 
 import org.apache.commons.math3.util.MathArrays;
 
+import static games.CardUtils.CARDS_TOTAL_COUNT;
+import static games.CardUtils.PARS_TOTAL_COUNT;
+
 public class Drunkard {
-
-    enum Suit {
-        SPADES, // пики
-        HEARTS, // червы
-        CLUBS, // трефы
-        DIAMONDS // бубны
-    }
-
-    enum Par {
-        SIX,
-        SEVEN,
-        EIGHT,
-        NINE,
-        TEN,
-        JACK, // Валет
-        QUEEN, // Дама
-        KING, // Король
-        ACE // Туз
-    }
-
-    private static final int PARS_TOTAL_COUNT = Par.values().length; //9
-
-    private static final int CARDS_TOTAL_COUNT = PARS_TOTAL_COUNT * Suit.values().length; //36
 
     private static int[][] playersCards = new int[2][CARDS_TOTAL_COUNT + 1];
 
     private static int[] playersCardTails = new int[2];
     private static int[] playersCardHeads = new int[2];
-
-    private static Suit getSuit(int cardNumber) {
-        return Suit.values()[cardNumber / PARS_TOTAL_COUNT];
-    }
-
-    private static Par getPar(int cardNumber) {
-        return Par.values()[cardNumber % PARS_TOTAL_COUNT];
-    }
-
-    private static String toString(int cardNumber) {
-        return getPar(cardNumber) + " " + getSuit(cardNumber);
-    }
 
     private static int incrementIndex(int i) {
         return (i + 1) % (CARDS_TOTAL_COUNT + 1);
@@ -105,8 +73,8 @@ public class Drunkard {
             int movePos0 = playersCardTails[0];
             int movePos1 = playersCardTails[1];
 
-            String cardToString0 = toString(playersCards[0][movePos0]);
-            String cardToString1 = toString(playersCards[1][movePos1]);
+            String cardToString0 = CardUtils.toString(playersCards[0][movePos0]);
+            String cardToString1 = CardUtils.toString(playersCards[1][movePos1]);
 
             int cardValue0 = playersCards[0][movePos0] % PARS_TOTAL_COUNT;
             int cardValue1 = playersCards[1][movePos1] % PARS_TOTAL_COUNT;
