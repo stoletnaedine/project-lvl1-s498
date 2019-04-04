@@ -68,11 +68,8 @@ public class Drunkard {
 
             iteration++;
 
-            int movePos0 = playersCardTails[0];
-            int movePos1 = playersCardTails[1];
-
-            int cardValue0 = playersCards[0][movePos0] % PARS_TOTAL_COUNT;
-            int cardValue1 = playersCards[1][movePos1] % PARS_TOTAL_COUNT;
+            int cardValue0 = playersCards[0][playersCardTails[0]] % PARS_TOTAL_COUNT;
+            int cardValue1 = playersCards[1][playersCardTails[1]] % PARS_TOTAL_COUNT;
 
             if (cardValue0 > cardValue1 ||
                     (cardValue0 == 0 && cardValue1 == 8)) {
@@ -94,8 +91,8 @@ public class Drunkard {
                 moveCard(1);
             }
 
-            String cardToString0 = CardUtils.toString(playersCards[0][movePos0]);
-            String cardToString1 = CardUtils.toString(playersCards[1][movePos1]);
+            String cardToString0 = CardUtils.toString(playersCards[0][playersCardTails[0]]);
+            String cardToString1 = CardUtils.toString(playersCards[1][playersCardTails[1]]);
 
             System.out.printf("Итерация №%d: Игрок №1 карта: %s; игрок №2 карта: %s. \n" +
                                 result + "\n" +
