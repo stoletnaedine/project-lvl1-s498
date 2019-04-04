@@ -28,10 +28,10 @@ public class Drunkard {
         int tail = playersCardTails[playerIndex];
         int head = playersCardHeads[playerIndex];
 
-        if (tail > head) {
+        if (head < tail) {
             countCards = head + CARDS_TOTAL_COUNT - tail + 1;
         }
-        if (tail < head) {
+        if (head > tail) {
             countCards = head - tail;
         }
         return countCards;
@@ -82,34 +82,34 @@ public class Drunkard {
             if (cardValue0 > cardValue1 ||
                     (cardValue0 == 0 && cardValue1 == 8)) {
                 result = "Выиграл игрок 1!";
-                playersCardHeads[0] = incrementIndex(playersCardHeads[0]);
                 playersCards[0][playersCardHeads[0]] = playersCards[0][playersCardTails[0]];
                 playersCardTails[0] = incrementIndex(playersCardTails[0]);
                 playersCardHeads[0] = incrementIndex(playersCardHeads[0]);
                 playersCards[0][playersCardHeads[0]] = playersCards[1][playersCardTails[1]];
                 playersCardTails[1] = incrementIndex(playersCardTails[1]);
+                playersCardHeads[0] = incrementIndex(playersCardHeads[0]);
                 winner = true;
             }
             else if (cardValue0 < cardValue1 ||
                     (cardValue0 == 8 && cardValue1 == 0)){
                 result = "Выиграл игрок 2!";
-                playersCardHeads[1] = incrementIndex(playersCardHeads[1]);
                 playersCards[1][playersCardHeads[1]] = playersCards[0][playersCardTails[1]];
                 playersCardTails[1] = incrementIndex(playersCardTails[1]);
                 playersCardHeads[1] = incrementIndex(playersCardHeads[1]);
                 playersCards[1][playersCardHeads[1]] = playersCards[0][playersCardTails[0]];
                 playersCardTails[0] = incrementIndex(playersCardTails[0]);
+                playersCardHeads[1] = incrementIndex(playersCardHeads[1]);
                 winner = false;
             }
             else if (cardValue0 == cardValue1) {
                 result = "Спор — каждый остаётся при своих!";
-                playersCardHeads[0] = incrementIndex(playersCardHeads[0]);
                 playersCards[0][playersCardHeads[0]] = playersCards[0][playersCardTails[0]];
                 playersCardTails[0] = incrementIndex(playersCardTails[0]);
+                playersCardHeads[0] = incrementIndex(playersCardHeads[0]);
 
-                playersCardHeads[1] = incrementIndex(playersCardHeads[1]);
                 playersCards[1][playersCardHeads[1]] = playersCards[1][playersCardTails[1]];
                 playersCardTails[1] = incrementIndex(playersCardTails[1]);
+                playersCardHeads[1] = incrementIndex(playersCardHeads[1]);
             }
 
             System.out.printf("Итерация №%d: Игрок №1 карта: %s; игрок №2 карта: %s. \n" +
