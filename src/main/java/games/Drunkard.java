@@ -55,13 +55,6 @@ public class Drunkard {
         return tail == head;
     }
 
-//    private static int countCards(int playerIndex) {
-//        int tail = playersCardTails[playerIndex];
-//        int head = playersCardHeads[playerIndex];
-//
-//        return head - tail + 1 + (tail <= head ? 0 : CARDS_TOTAL_COUNT + 1);
-//    }
-
     private static int countCards(int playerIndex) {
         int countCards = 0;
         int tail = playersCardTails[playerIndex];
@@ -76,7 +69,7 @@ public class Drunkard {
         return countCards;
     }
 
-    public static void main(String[] args) {
+    public static void main() {
 
         int[] cards = new int[CARDS_TOTAL_COUNT];
 
@@ -99,10 +92,7 @@ public class Drunkard {
         playersCardHeads[1] = CARDS_TOTAL_COUNT / 2 - 1;
         playersCardTails[1] = 0;
 
-        int brokenCardPosition;
-        int newCardPosition;
-
-        int iteration = 1;
+        int iteration = 0;
 
         boolean winner = false;
         boolean gameover = false;
@@ -110,10 +100,7 @@ public class Drunkard {
 
         while (!gameover){
 
-            System.out.println("ДО ХОДА: ");
-            System.out.println("PLAYER 1: head " + playersCardHeads[0] + " | tail " + playersCardTails[0]);
-            System.out.println("PLAYER 2: head " + playersCardHeads[1] + " | tail " + playersCardTails[1]);
-            System.out.println("_______");
+            iteration++;
 
             int movePos0 = playersCardTails[0];
             int movePos1 = playersCardTails[1];
@@ -131,8 +118,7 @@ public class Drunkard {
                 playersCards[0][playersCardHeads[0]] = playersCards[0][playersCardTails[0]];
                 playersCardTails[0] = incrementIndex(playersCardTails[0]);
                 playersCardHeads[0] = incrementIndex(playersCardHeads[0]);
-                newCardPosition = incrementIndex(playersCardHeads[0]);
-                playersCards[0][newCardPosition] = playersCards[1][playersCardTails[1]];
+                playersCards[0][playersCardHeads[0]] = playersCards[1][playersCardTails[1]];
                 playersCardTails[1] = incrementIndex(playersCardTails[1]);
                 winner = true;
             }
@@ -158,27 +144,15 @@ public class Drunkard {
                 playersCardTails[1] = incrementIndex(playersCardTails[1]);
             }
 
-
-
-            System.out.println(cardValue0 + " - " + cardValue1);
-
-            System.out.println("Ход 1 игрока: " + movePos0 + "| Ход 2 игрока: " + movePos1);
-
             System.out.printf("Итерация №%d: Игрок №1 карта: %s; игрок №2 карта: %s. \n" +
                                 result + "\n" +
                                 "У игрока №1 %d карт, у игрока №2 %d карт\n",
                         iteration, cardToString0, cardToString1, countCards(0), countCards(1));
-
-            System.out.println("PLAYER 1: head " + playersCardHeads[0] + " | tail " + playersCardTails[0]);
-            System.out.println("PLAYER 2: head " + playersCardHeads[1] + " | tail " + playersCardTails[1]);
-
-            System.out.println("_____________________________");
+            System.out.println();
 
             if (playerCardsIsEmpty(0) || playerCardsIsEmpty(1)) {
                 gameover = true;
             }
-
-            iteration++;
         }
 
         if (winner)
