@@ -95,7 +95,7 @@ public class Drunkard {
                 }
 
             System.out.printf("Итерация №%d: Игрок №1 карта: %s; игрок №2 карта: %s.\n%s\nУ игрока №1 %d карт, у игрока №2 %d карт\n",
-                        iteration, CardUtils.toString(cardValue(0)), CardUtils.toString(cardValue(1)),
+                    iteration, CardUtils.toString(cardValue(0)), CardUtils.toString(cardValue(1)),
                     result, countCards(0), countCards(1));
 
             System.out.println();
