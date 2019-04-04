@@ -16,10 +16,10 @@ public class BlackJack {
             default: return 11;
         }
 
-        private static int[] cards; // Основная колода
-        private static int cursor; // Счётчик карт основной колоды
-
-        private static int[][] playersCards; // карты игроков. Первый индекс - номер игрока
-        private static int[] playersCursors; // курсоры карт игроков. Индекс - номер игрока
+//        private static int[] cards; // Основная колода
+//        private static int cursor; // Счётчик карт основной колоды
+//
+//        private static int[][] playersCards; // карты игроков. Первый индекс - номер игрока
+//        private static int[] playersCursors; // курсоры карт игроков. Индекс - номер игрока
     }
 }
