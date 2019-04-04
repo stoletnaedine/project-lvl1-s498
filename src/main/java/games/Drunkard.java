@@ -46,6 +46,9 @@ public class Drunkard {
         playersCardHeads[playerIndexTo] = incrementIndex(playersCardHeads[playerIndexTo]);
     }
 
+    private static int cardValue(int playerIndex) {
+        return playersCards[playerIndex][playersCardTails[playerIndex]] % PARS_TOTAL_COUNT;
+    }
 
     public static void main() {
 
@@ -60,44 +63,43 @@ public class Drunkard {
 
         int iteration = 0;
 
-        boolean winner = false;
         boolean gameover = false;
-        String result = null;
+
+        int winnerComparator = 0;
 
         while (!gameover){
 
             iteration++;
 
-            int cardValue0 = playersCards[0][playersCardTails[0]] % PARS_TOTAL_COUNT;
-            int cardValue1 = playersCards[1][playersCardTails[1]] % PARS_TOTAL_COUNT;
+            String result;
 
-            if (cardValue0 > cardValue1 ||
-                    (cardValue0 == 0 && cardValue1 == 8)) {
+            if (cardValue(0) > cardValue(1) ||
+                    (cardValue(0) == 0 && cardValue(1) == 8)) {
                 result = "Выиграл игрок 1!";
                 moveCard(0);
                 addCard(0,1);
-                winner = true;
+                winnerComparator++;
             }
-            if (cardValue0 < cardValue1 ||
-                    (cardValue0 == 8 && cardValue1 == 0)){
+            else
+                if (cardValue(0) < cardValue(1) ||
+                    (cardValue(0) == 8 && cardValue(1) == 0)){
                 result = "Выиграл игрок 2!";
                 moveCard(1);
                 addCard(1,0);
-                winner = false;
+                winnerComparator--;
             }
-            else {
+                else {
                 result = "Спор — каждый остаётся при своих!";
                 moveCard(0);
                 moveCard(1);
-            }
-
-            String cardToString0 = CardUtils.toString(playersCards[0][playersCardTails[0]]);
-            String cardToString1 = CardUtils.toString(playersCards[1][playersCardTails[1]]);
+                }
 
             System.out.printf("Итерация №%d: Игрок №1 карта: %s; игрок №2 карта: %s. \n" +
                                 result + "\n" +
                                 "У игрока №1 %d карт, у игрока №2 %d карт\n",
-                        iteration, cardToString0, cardToString1, countCards(0), countCards(1));
+                        iteration, CardUtils.toString(cardValue(0)), CardUtils.toString(cardValue(1)),
+                    countCards(0), countCards(1));
+
             System.out.println();
 
             if (playerCardsIsEmpty(0) || playerCardsIsEmpty(1)) {
@@ -105,10 +107,10 @@ public class Drunkard {
             }
         }
 
-        if (winner)
+        if (winnerComparator > 0)
             System.out.printf("Выиграл первый игрок! Количество произведённых итераций: %d.", iteration);
 
-        if (!winner)
+        if (winnerComparator < 0)
             System.out.printf("Выиграл второй игрок! Количество произведённых итераций: %d.", iteration);
     }
 }
