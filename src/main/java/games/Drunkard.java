@@ -94,11 +94,9 @@ public class Drunkard {
                 moveCard(1);
                 }
 
-            System.out.printf("Итерация №%d: Игрок №1 карта: %s; игрок №2 карта: %s. \n" +
-                                result + "\n" +
-                                "У игрока №1 %d карт, у игрока №2 %d карт\n",
+            System.out.printf("Итерация №%d: Игрок №1 карта: %s; игрок №2 карта: %s.\n%s\nУ игрока №1 %d карт, у игрока №2 %d карт\n",
                         iteration, CardUtils.toString(cardValue(0)), CardUtils.toString(cardValue(1)),
-                    countCards(0), countCards(1));
+                    result, countCards(0), countCards(1));
 
             System.out.println();
 
@@ -107,10 +105,12 @@ public class Drunkard {
             }
         }
 
-        if (winnerComparator > 0)
+        if (winnerComparator > 0) {
             System.out.printf("Выиграл первый игрок! Количество произведённых итераций: %d.", iteration);
+        }
 
-        if (winnerComparator < 0)
+        if (winnerComparator < 0) {
             System.out.printf("Выиграл второй игрок! Количество произведённых итераций: %d.", iteration);
+        }
     }
 }
