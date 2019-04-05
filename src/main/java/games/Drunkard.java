@@ -52,7 +52,7 @@ public class Drunkard {
 
     public static void main() {
 
-        int[] cards = getShaffledCards();
+        int[] cards = getShuffledCards();
 
         System.arraycopy(cards, 0, playersCards[0], 0, 18);
         System.arraycopy(cards, 18, playersCards[1], 0, 18);
