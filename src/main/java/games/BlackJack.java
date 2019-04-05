@@ -89,20 +89,20 @@ public class BlackJack {
             case 0:  // player
                 System.out.println("Вам выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
                 System.out.println("Сумма моих очков: " + sum(playerIndex));
-                while (confirm("Берём еще?") && sum(playerIndex) < playerStopPoint) {
+                do {
                     System.out.println("Вам выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
                     System.out.println("Сумма моих очков: " + sum(playerIndex));
-                }
+                } while (confirm("Берём еще?") && sum(playerIndex) < playerStopPoint);
                 break;
 
             case 1:  // AI
                 System.out.println("Компьютеру выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
                 System.out.println("Компьютеру выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
                 System.out.println("Сумма его очков: " + sum(playerIndex));
-                while (sum(playerIndex) <= AIStopPoint) {
+                do {
                     System.out.println("Компьютер решил взять ещё и ему выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
                     System.out.println("Сумма его очков: " + sum(playerIndex));
-                }
+                } while (sum(playerIndex) <= AIStopPoint);
                 break;
                 default:
                     break;
@@ -111,7 +111,7 @@ public class BlackJack {
 
     public static void main() throws IOException {
 
-        while (!endMoney(0) ||  !endMoney(1)) {
+        while (!endMoney(0) && !endMoney(1)) {
 
             initRound();
 
