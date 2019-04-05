@@ -24,27 +24,33 @@ public class BlackJack {
 
     private static int[] cards; // Основная колода
     private static int cursor; // Счётчик карт основной колоды
-
     private static int[][] playersCards; // карты игроков. Первый индекс - номер игрока
     private static int[] playersCursors; // курсоры карт игроков. Индекс - номер игрока
-
     private static int[] playersMoney = {100, 100};
-
     private static final int MAX_VALUE = 21;
     private static final int MAX_CARDS_COUNT = 8;
+    private static final int bet = 10;
+    private static final int PLAYER = 0;
+    private static final int AI = 1;
+    private static final int playerStopPoint = 20;
+    private static final int AIStopPoint = 17;
 
     private static void initRound() {
-        System.out.println("\nУ Вас " + playersMoney[0] + "$, у компьютера - " + playersMoney[1] + "$. Начинаем новый раунд!");
-        cards = CardUtils.getShaffledCards();
+        System.out.println("\nУ Вас " + playersMoney[PLAYER] + "$, у компьютера - " + playersMoney[AI] + "$. Начинаем новый раунд!");
+        cards = CardUtils.getShuffledCards();
         playersCards = new int[2][MAX_CARDS_COUNT];
         playersCursors = new int[]{0, 0};
         cursor = 0;
     }
 
-    private static void addCard2Player(int player) {
-        playersCards[player][playersCursors[player]] = cards[cursor];
+    private static int addCard2Player(int player) {
+        int card = cards[cursor];
+        int playerCursor = playersCursors[player];
+
+        playersCards[player][playerCursor] = card;
         playersCursors[player]++;
-        cards[cursor]++;
+        cursor++;
+        return card;
     }
 
     static int sum(int player) {
@@ -62,7 +68,8 @@ public class BlackJack {
     static boolean confirm(String message) throws IOException {
         System.out.println(message + " \"Y\" - Да, {любой другой символ} - нет (Что бы выйти из игры, нажмите Ctrl + C)");
         switch (getCharacterFromUser()) {
-            case 'Y': case 'y': return true;
+            case 'Y':
+            case 'y': return true;
             default: return false;
         }
     }
@@ -71,37 +78,63 @@ public class BlackJack {
         return playersMoney[player] == 0;
     }
 
-    static void game(int player) throws IOException {
-        addCard2Player(player);
-        addCard2Player(player);
+    static void changeMoney(int winnerPlayer, int loserPlayer) {
+        playersMoney[winnerPlayer] += bet;
+        playersMoney[loserPlayer] -= bet;
+    }
 
-        if (sum(player) < 20) {
-            for (int i = 0; i < playersCursors[player]; i++) {
-                System.out.println("Вам выпала карта " + CardUtils.toString(playersCards[player][i]));
-            }
-            if (confirm("Берём еще?")) {
-                addCard2Player(player);
-            }
+    static void game(int playerIndex) throws IOException {
+
+        switch (playerIndex) {
+            case 0:  // player
+                System.out.println("Вам выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
+                System.out.println("Сумма моих очков: " + sum(playerIndex));
+                while (confirm("Берём еще?") && sum(playerIndex) < playerStopPoint) {
+                    System.out.println("Вам выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
+                    System.out.println("Сумма моих очков: " + sum(playerIndex));
+                }
+                break;
+
+            case 1:  // AI
+                System.out.println("Компьютеру выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
+                System.out.println("Компьютеру выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
+                System.out.println("Сумма его очков: " + sum(playerIndex));
+                while (sum(playerIndex) <= AIStopPoint) {
+                    System.out.println("Компьютер решил взять ещё и ему выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
+                    System.out.println("Сумма его очков: " + sum(playerIndex));
+                }
+                break;
+                default:
+                    break;
         }
     }
 
     public static void main() throws IOException {
 
-            while (!endMoney(0) ||  !endMoney(1)) {
+        while (!endMoney(0) ||  !endMoney(1)) {
 
-                initRound();
-                game(0);
-                game(1);
-                System.out.printf("Сумма ваших очков - %d, компьютера - %d\n", getFinalSum(0), getFinalSum(1));
-                String loss = "Вы проиграли раунд! Теряете ";
-                String win = "Вы выиграли раунд! Получаете ";
-                System.out.println((getFinalSum(0) < getFinalSum(1)) ? loss : win + "10$");
+            initRound();
+
+            game(PLAYER);
+            game(AI);
+
+            System.out.printf("Сумма ваших очков - %d, компьютера - %d\n", getFinalSum(0), getFinalSum(1));
+
+            String lossMessage = "Вы проиграли раунд! Теряете ";
+            String winMessage = "Вы выиграли раунд! Получаете ";
+            boolean playerWin = getFinalSum(0) > getFinalSum(1);
+
+            System.out.println(playerWin ? winMessage : lossMessage + bet + "$");
+            if ((playerWin)) {
+                changeMoney(0, 1);
+            } else {
+                changeMoney(1, 0);
             }
+        }
 
-
-            if (playersMoney[0] > 0)
-                System.out.println("Вы выиграли! Поздравляем!");
-            else
-                System.out.println("Вы проиграли. Соболезнуем...");
+        if (playersMoney[0] > 0)
+            System.out.println("Вы выиграли! Поздравляем!");
+        else
+            System.out.println("Вы проиграли. Соболезнуем...");
     }
 }
