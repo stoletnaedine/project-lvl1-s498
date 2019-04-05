@@ -39,7 +39,7 @@ public class CardUtils {
         return getPar(cardNumber) + " " + getSuit(cardNumber);
     }
 
-    static int[] getShaffledCards() {
+    static int[] getShuffledCards() {
         // колода подряд
         int[] cards = {
                 0, 1, 2, 3, 4, 5, 6, 7, 8,  // бубны
