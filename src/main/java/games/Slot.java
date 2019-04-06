@@ -1,9 +1,13 @@
 package games;
 
+import org.slf4j.Logger;
+
 import static java.lang.Math.random;
 import static java.lang.Math.round;
 
 public class Slot {
+
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Slot.class);
 
     public static void main() {
 
@@ -35,7 +39,7 @@ public class Slot {
                 result = cash - bet;
             }
 
-            System.out.printf("У Вас %d$, ставка - %d$\n" +
+            log.info("У Вас %d$, ставка - %d$\n" +
                             "Крутим барабаны!Розыгрыш принёс следующие результаты:\n" +
                             "первый барабан - %d, второй - %d, третий - %d\n" +
                             "Проигрыш %d$, ваш капитал теперь составляет: %d$\n\n",
