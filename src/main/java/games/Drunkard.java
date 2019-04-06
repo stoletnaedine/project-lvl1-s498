@@ -1,8 +1,12 @@
 package games;
 
+import org.slf4j.Logger;
+
 import static games.CardUtils.*;
 
 public class Drunkard {
+
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Drunkard.class);
 
     private static int[][] playersCards = new int[2][CARDS_TOTAL_COUNT + 1];
 
@@ -93,11 +97,11 @@ public class Drunkard {
                 moveCard(1);
                 }
 
-            System.out.printf("Итерация №%d: Игрок №1 карта: %s; игрок №2 карта: %s.\n%s\nУ игрока №1 %d карт, у игрока №2 %d карт\n",
+            log.info("Итерация №%d: Игрок №1 карта: %s; игрок №2 карта: %s.\n%s\nУ игрока №1 %d карт, у игрока №2 %d карт\n",
                     iteration, CardUtils.toString(playerOneCard), CardUtils.toString(playerTwoCard),
                     result, countCards(0), countCards(1));
 
-            System.out.println();
+            log.info();
 
             if (playerCardsIsEmpty(0) || playerCardsIsEmpty(1)) {
                 gameover = true;
@@ -105,11 +109,11 @@ public class Drunkard {
         }
 
         if (winnerComparator > 0) {
-            System.out.printf("Выиграл первый игрок! Количество произведённых итераций: %d.", iteration);
+            log.info("Выиграл первый игрок! Количество произведённых итераций: %d.", iteration);
         }
 
         if (winnerComparator < 0) {
-            System.out.printf("Выиграл второй игрок! Количество произведённых итераций: %d.", iteration);
+            log.info("Выиграл второй игрок! Количество произведённых итераций: %d.", iteration);
         }
     }
 }
