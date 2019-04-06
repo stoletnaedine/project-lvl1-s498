@@ -1,11 +1,15 @@
 package games;
 
+import org.slf4j.Logger;
+
 import java.io.IOException;
 
 import static games.CardUtils.getPar;
 import static games.Choice.getCharacterFromUser;
 
 public class BlackJack {
+
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(BlackJack.class);
 
     private static int value(int card) {
         switch (getPar(card)) {
@@ -36,7 +40,7 @@ public class BlackJack {
     private static final int AIStopPoint = 17; // количество СТОП-ИГРА очков компьютера
 
     private static void initRound() {
-        System.out.println("\nУ Вас " + playersMoney[PLAYER] + "$, у компьютера - " + playersMoney[AI] + "$. Начинаем новый раунд!\n");
+        log.info("\nУ Вас " + playersMoney[PLAYER] + "$, у компьютера - " + playersMoney[AI] + "$. Начинаем новый раунд!\n");
         cards = CardUtils.getShuffledCards();
         playersCards = new int[2][MAX_CARDS_COUNT];
         playersCursors = new int[]{0, 0};
@@ -66,7 +70,7 @@ public class BlackJack {
     }
 
     static boolean confirm(String message) throws IOException {
-        System.out.println(message + " \"Y\" - Да, {любой другой символ} - нет (Что бы выйти из игры, нажмите Ctrl + C)");
+        log.info(message + " \"Y\" - Да, {любой другой символ} - нет (Что бы выйти из игры, нажмите Ctrl + C)");
         switch (getCharacterFromUser()) {
             case 'Y':
             case 'y': return true;
@@ -84,26 +88,24 @@ public class BlackJack {
     }
 
     static void game(int playerIndex) throws IOException {
-
         switch (playerIndex) {
             case 0:  // player
-                System.out.println("Вам выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
+                log.info("Вам выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
                 do {
-                    System.out.println("Вам выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
-                    System.out.println("Сумма моих очков: " + sum(playerIndex));
+                    log.info("Вам выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
+                    log.info("Сумма моих очков: " + sum(playerIndex));
                 } while (confirm("Берём еще?") && sum(playerIndex) < playerStopPoint);
                 break;
-
             case 1:  // AI
                 int iter = 0;
                 while (iter < 2) {
-                    System.out.println("Компьютеру выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
+                    log.info("Компьютеру выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
                     iter++;
                 }
-                System.out.println("Сумма его очков: " + sum(playerIndex));
+                log.info("Сумма его очков: " + sum(playerIndex));
                 while (sum(playerIndex) <= AIStopPoint) {
-                    System.out.println("Компьютер решил взять ещё и ему выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
-                    System.out.println("Сумма его очков: " + sum(playerIndex));
+                    log.info("Компьютер решил взять ещё и ему выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
+                    log.info("Сумма его очков: " + sum(playerIndex));
                 }
                 break;
                 default:
@@ -112,20 +114,18 @@ public class BlackJack {
     }
 
     private static void printResult(int result) {
-
-        System.out.printf("Сумма ваших очков - %d, компьютера - %d\n", getFinalSum(0), getFinalSum(1));
-
+        log.info("Сумма ваших очков - %d, компьютера - %d\n", getFinalSum(0), getFinalSum(1));
         switch (result) {
             case 0:
-                System.out.printf("Вы выиграли раунд! Получаете %d$\n", bet);
+                log.info("Вы выиграли раунд! Получаете %d$\n", bet);
                 changeMoney(0, 1);
                 break;
             case 1:
-                System.out.printf("Вы проиграли раунд! Теряете %d$\n", bet);
+                log.info("Вы проиграли раунд! Теряете %d$\n", bet);
                 changeMoney(1, 0);
                 break;
             case 2:
-                System.out.printf("Ничья!\n");
+                log.info("Ничья!\n");
                 break;
             default:
                 break;
@@ -133,7 +133,6 @@ public class BlackJack {
     }
 
     public static void main() throws IOException {
-
         while (!noMoney(0) && !noMoney(1)) {
 
             initRound();
@@ -155,9 +154,10 @@ public class BlackJack {
             }
         }
 
-        if (playersMoney[0] > 0)
-            System.out.println("\nВы выиграли! Поздравляем!");
-        else
-            System.out.println("\nВы проиграли. Соболезнуем...");
+        if (playersMoney[0] > 0) {
+            log.info("\nВы выиграли! Поздравляем!");
+        } else {
+            log.info("\nВы проиграли. Соболезнуем...");
+        }
     }
 }
