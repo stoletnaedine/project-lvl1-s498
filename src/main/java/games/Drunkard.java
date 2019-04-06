@@ -26,14 +26,14 @@ public class Drunkard {
 
     private static int countCards(int playerIndex) {
         int countCards = 0;
-        int tail = playersCardTails[playerIndex];
         int head = playersCardHeads[playerIndex];
+        int tail = playersCardTails[playerIndex];
 
-        if (head < tail) {
-            countCards = head + CARDS_TOTAL_COUNT - tail + 1;
-        }
         if (head > tail) {
             countCards = head - tail;
+        }
+        if (head < tail) {
+            countCards = head + CARDS_TOTAL_COUNT - tail + 1;
         }
         return countCards;
     }
