@@ -1,11 +1,15 @@
 package games;
 
+import org.slf4j.Logger;
+
 import java.io.IOException;
 
 import static org.apache.logging.log4j.util.Strings.LINE_SEPARATOR;
 
 
 public class Choice {
+
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Choice.class);
 
     static char getCharacterFromUser() throws IOException {
         byte[] input = new byte[1 + LINE_SEPARATOR.length()];
@@ -15,13 +19,13 @@ public class Choice {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println("Выберите игру:\n1 - \"однорукий бандит\", 2 - \"пьяница\", 3 — \"очко");
+        log.info("Выберите игру:\n1 - \"однорукий бандит\", 2 - \"пьяница\", 3 — \"очко");
 
         switch (getCharacterFromUser()) {
             case '1': Slot.main(); break;
             case '2': Drunkard.main(); break;
             case '3': BlackJack.main(); break;
-            default: System.out.println("Игры с таким номером нет!");
+            default: log.info("Игры с таким номером нет!");
         }
     }
 }
