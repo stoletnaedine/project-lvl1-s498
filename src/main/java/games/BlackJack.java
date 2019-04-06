@@ -26,7 +26,7 @@ public class BlackJack {
     private static int cursor; // Счётчик карт основной колоды
     private static int[][] playersCards; // карты игроков. Первый индекс - номер игрока
     private static int[] playersCursors; // курсоры карт игроков. Индекс - номер игрока
-    private static int[] playersMoney = {10, 10}; // стартовые деньги игроков
+    private static int[] playersMoney = {100, 100}; // стартовые деньги игроков
     private static final int MAX_VALUE = 21; // максимальное значение очков в игре
     private static final int MAX_CARDS_COUNT = 8; // максимальное количество карт у одного игрока
     private static final int bet = 10; // ставка
