@@ -114,14 +114,14 @@ public class BlackJack {
     }
 
     private static void printResult(int result) {
-        log.info("Сумма ваших очков - %d, компьютера - %d\n", getFinalSum(0), getFinalSum(1));
+        log.info("Сумма ваших очков - {}, компьютера - {}\n", getFinalSum(0), getFinalSum(1));
         switch (result) {
             case 0:
-                log.info("Вы выиграли раунд! Получаете %d$\n", bet);
+                log.info("Вы выиграли раунд! Получаете {}$\n", bet);
                 changeMoney(0, 1);
                 break;
             case 1:
-                log.info("Вы проиграли раунд! Теряете %d$\n", bet);
+                log.info("Вы проиграли раунд! Теряете {}$\n", bet);
                 changeMoney(1, 0);
                 break;
             case 2:

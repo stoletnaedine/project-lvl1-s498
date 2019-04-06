@@ -97,11 +97,10 @@ public class Drunkard {
                 moveCard(1);
                 }
 
-            log.info("Итерация №%d: Игрок №1 карта: %s; игрок №2 карта: %s.\n%s\nУ игрока №1 %d карт, у игрока №2 %d карт\n",
+            log.info("Итерация №{}: Игрок №1 карта: {}; игрок №2 карта: {}.\n{}\nУ игрока №1 {} карт, у игрока №2 {} карт\n",
                     iteration, CardUtils.toString(playerOneCard), CardUtils.toString(playerTwoCard),
                     result, countCards(0), countCards(1));
 
-            log.info();
 
             if (playerCardsIsEmpty(0) || playerCardsIsEmpty(1)) {
                 gameover = true;
@@ -109,11 +108,11 @@ public class Drunkard {
         }
 
         if (winnerComparator > 0) {
-            log.info("Выиграл первый игрок! Количество произведённых итераций: %d.", iteration);
+            log.info("Выиграл первый игрок! Количество произведённых итераций: {}.", iteration);
         }
 
         if (winnerComparator < 0) {
-            log.info("Выиграл второй игрок! Количество произведённых итераций: %d.", iteration);
+            log.info("Выиграл второй игрок! Количество произведённых итераций: {}.", iteration);
         }
     }
 }
