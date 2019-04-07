@@ -9,8 +9,6 @@ import static games.Choice.getCharacterFromUser;
 
 public class BlackJack {
 
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(BlackJack.class);
-
     private static int value(int card) {
         switch (getPar(card)) {
             case JACK: return 2;
@@ -26,6 +24,7 @@ public class BlackJack {
         }
     }
 
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(BlackJack.class);
     private static int[] cards; // Основная колода
     private static int cursor; // Счётчик карт основной колоды
     private static int[][] playersCards; // карты игроков. Первый индекс - номер игрока
@@ -40,7 +39,7 @@ public class BlackJack {
     private static final int AIStopPoint = 17; // количество СТОП-ИГРА очков компьютера
 
     private static void initRound() {
-        log.info("\nУ Вас " + playersMoney[PLAYER] + "$, у компьютера - " + playersMoney[AI] + "$. Начинаем новый раунд!\n");
+        log.info("\nУ Вас {}$, у компьютера - {}$. Начинаем новый раунд!\n", playersMoney[PLAYER], playersMoney[AI]);
         cards = CardUtils.getShuffledCards();
         playersCards = new int[2][MAX_CARDS_COUNT];
         playersCursors = new int[]{0, 0};
@@ -70,7 +69,7 @@ public class BlackJack {
     }
 
     static boolean confirm(String message) throws IOException {
-        log.info(message + " \"Y\" - Да, {любой другой символ} - нет (Что бы выйти из игры, нажмите Ctrl + C)");
+        log.info("{} \"Y\" - Да, {любой другой символ} - нет (Что бы выйти из игры, нажмите Ctrl + C)", message);
         switch (getCharacterFromUser()) {
             case 'Y':
             case 'y': return true;
@@ -90,22 +89,22 @@ public class BlackJack {
     static void game(int playerIndex) throws IOException {
         switch (playerIndex) {
             case 0:  // player
-                log.info("Вам выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
+                log.info("Вам выпала карта {}", CardUtils.toString(addCard2Player(playerIndex)));
                 do {
-                    log.info("Вам выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
-                    log.info("Сумма моих очков: " + sum(playerIndex));
+                    log.info("Вам выпала карта {}", CardUtils.toString(addCard2Player(playerIndex)));
+                    log.info("Сумма моих очков: {}", sum(playerIndex));
                 } while (confirm("Берём еще?") && sum(playerIndex) < playerStopPoint);
                 break;
             case 1:  // AI
                 int iter = 0;
                 while (iter < 2) {
-                    log.info("Компьютеру выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
+                    log.info("Компьютеру выпала карта {}", CardUtils.toString(addCard2Player(playerIndex)));
                     iter++;
                 }
-                log.info("Сумма его очков: " + sum(playerIndex));
+                log.info("Сумма его очков: {}", sum(playerIndex));
                 while (sum(playerIndex) <= AIStopPoint) {
-                    log.info("Компьютер решил взять ещё и ему выпала карта " + CardUtils.toString(addCard2Player(playerIndex)));
-                    log.info("Сумма его очков: " + sum(playerIndex));
+                    log.info("Компьютер решил взять ещё и ему выпала карта {}", CardUtils.toString(addCard2Player(playerIndex)));
+                    log.info("Сумма его очков: {}", sum(playerIndex));
                 }
                 break;
                 default:
