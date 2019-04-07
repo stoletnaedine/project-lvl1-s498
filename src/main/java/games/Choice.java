@@ -4,12 +4,10 @@ import org.slf4j.Logger;
 
 import java.io.IOException;
 
-import static org.apache.logging.log4j.util.Strings.LINE_SEPARATOR;
-
-
 public class Choice {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(Choice.class);
+    static final String LINE_SEPARATOR = System.lineSeparator();
 
     static char getCharacterFromUser() throws IOException {
         byte[] input = new byte[1 + LINE_SEPARATOR.length()];
