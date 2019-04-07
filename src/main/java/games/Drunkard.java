@@ -1,15 +1,12 @@
 package games;
 
 import org.slf4j.Logger;
-
 import static games.CardUtils.*;
 
 public class Drunkard {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(Drunkard.class);
-
     private static int[][] playersCards = new int[2][CARDS_TOTAL_COUNT + 1];
-
     private static int[] playersCardTails = new int[2];
     private static int[] playersCardHeads = new int[2];
 
@@ -57,22 +54,18 @@ public class Drunkard {
     public static void main() {
 
         int[] cards = getShuffledCards();
+        int iteration = 0;
+        boolean gameover = false;
+        int winnerComparator = 0;
 
         System.arraycopy(cards, 0, playersCards[0], 0, 18);
         System.arraycopy(cards, 18, playersCards[1], 0, 18);
-
-        int iteration = 0;
-
-        boolean gameover = false;
-
-        int winnerComparator = 0;
 
         while (!gameover){
 
             iteration++;
 
             String result;
-
             int playerOneCard = playersCards[0][playersCardTails[0]] % PARS_TOTAL_COUNT;
             int playerTwoCard = playersCards[1][playersCardTails[1]] % PARS_TOTAL_COUNT;
 
@@ -100,7 +93,6 @@ public class Drunkard {
             log.info("Итерация №{}: Игрок №1 карта: {}; игрок №2 карта: {}.\n{}\nУ игрока №1 {} карт, у игрока №2 {} карт\n",
                     iteration, CardUtils.toString(playerOneCard), CardUtils.toString(playerTwoCard),
                     result, countCards(0), countCards(1));
-
 
             if (playerCardsIsEmpty(0) || playerCardsIsEmpty(1)) {
                 gameover = true;
