@@ -89,17 +89,20 @@ public class BlackJack {
     static void game(int playerIndex) throws IOException {
         switch (playerIndex) {
             case 0:  // player
-                log.info("Вам выпала карта {}", CardUtils.toString(addCard2Player(playerIndex)));
-                do {
+                for (int i = 0; i < 2; i++) {
+                    log.info("Вам выпала карта {}", CardUtils.toString(addCard2Player(playerIndex)));
+                }
+                log.info("Сумма моих очков: {}", sum(playerIndex));
+                while (confirm("Берём еще?")) {
                     log.info("Вам выпала карта {}", CardUtils.toString(addCard2Player(playerIndex)));
                     log.info("Сумма моих очков: {}", sum(playerIndex));
-                } while (confirm("Берём еще?") && sum(playerIndex) < playerStopPoint);
+                    if (sum(playerIndex) >= playerStopPoint)
+                        break;
+                }
                 break;
             case 1:  // AI
-                int iter = 0;
-                while (iter < 2) {
+                for (int i = 0; i < 2; i++) {
                     log.info("Компьютеру выпала карта {}", CardUtils.toString(addCard2Player(playerIndex)));
-                    iter++;
                 }
                 log.info("Сумма его очков: {}", sum(playerIndex));
                 while (sum(playerIndex) <= AIStopPoint) {
