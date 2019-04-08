@@ -32,11 +32,11 @@ public class BlackJack {
     private static int[] playersMoney = {100, 100}; // стартовые деньги игроков
     private static final int MAX_VALUE = 21; // максимальное значение очков в игре
     private static final int MAX_CARDS_COUNT = 8; // максимальное количество карт у одного игрока
-    private static final int bet = 10; // ставка
-    private static final int PLAYER = 0; // id игрока
-    private static final int AI = 1; // id компьютера
-    private static final int playerStopPoint = 20; // количество СТОП-ИГРА очков игрока
-    private static final int AIStopPoint = 17; // количество СТОП-ИГРА очков компьютера
+    private static final int BET = 10; // ставка
+    private static final int PLAYER = 0; // index игрока
+    private static final int AI = 1; // index компьютера
+    private static final int PLAYER_STOP_POINT = 20; // количество СТОП-ИГРА очков игрока
+    private static final int AI_STOP_POINT = 17; // количество СТОП-ИГРА очков компьютера
 
     private static void initRound() {
         log.info("\nУ Вас {}$, у компьютера - {}$. Начинаем новый раунд!\n", playersMoney[PLAYER], playersMoney[AI]);
@@ -46,12 +46,12 @@ public class BlackJack {
         cursor = 0;
     }
 
-    private static int addCard2Player(int player) {
+    private static int addCard2Player(int playerIndex) {
         int card = cards[cursor];
-        int playerCursor = playersCursors[player];
+        int playerCursor = playersCursors[playerIndex];
 
-        playersCards[player][playerCursor] = card;
-        playersCursors[player]++;
+        playersCards[playerIndex][playerCursor] = card;
+        playersCursors[playerIndex]++;
         cursor++;
         return card;
     }
@@ -64,8 +64,8 @@ public class BlackJack {
         return result;
     }
 
-    static int getFinalSum(int player) {
-        return (sum(player) <= MAX_VALUE) ? sum(player) : 0;
+    static int getFinalSum(int playerIndex) {
+        return (sum(playerIndex) <= MAX_VALUE) ? sum(playerIndex) : 0;
     }
 
     static boolean confirm(String message) throws IOException {
@@ -77,36 +77,40 @@ public class BlackJack {
         }
     }
 
-    static boolean noMoney(int player) {
-        return playersMoney[player] == 0;
+    static boolean hasMoney(int playerIndex) {
+        return playersMoney[playerIndex] != 0;
     }
 
     static void changeMoney(int winnerPlayer, int loserPlayer) {
-        playersMoney[winnerPlayer] += bet;
-        playersMoney[loserPlayer] -= bet;
+        playersMoney[winnerPlayer] += BET;
+        playersMoney[loserPlayer] -= BET;
+    }
+
+    static String printCard(int playerIndex) {
+        return CardUtils.toString(addCard2Player(playerIndex));
     }
 
     static void game(int playerIndex) throws IOException {
         switch (playerIndex) {
             case 0:  // player
                 for (int i = 0; i < 2; i++) {
-                    log.info("Вам выпала карта {}", CardUtils.toString(addCard2Player(playerIndex)));
+                    log.info("Вам выпала карта {}", printCard(playerIndex));
                 }
                 log.info("Сумма моих очков: {}", sum(playerIndex));
                 while (confirm("Берём еще?")) {
-                    log.info("Вам выпала карта {}", CardUtils.toString(addCard2Player(playerIndex)));
+                    log.info("Вам выпала карта {}", printCard(playerIndex));
                     log.info("Сумма моих очков: {}", sum(playerIndex));
-                    if (sum(playerIndex) >= playerStopPoint)
+                    if (sum(playerIndex) >= PLAYER_STOP_POINT)
                         break;
                 }
                 break;
             case 1:  // AI
                 for (int i = 0; i < 2; i++) {
-                    log.info("Компьютеру выпала карта {}", CardUtils.toString(addCard2Player(playerIndex)));
+                    log.info("Компьютеру выпала карта {}", printCard(playerIndex));
                 }
                 log.info("Сумма его очков: {}", sum(playerIndex));
-                while (sum(playerIndex) <= AIStopPoint) {
-                    log.info("Компьютер решил взять ещё и ему выпала карта {}", CardUtils.toString(addCard2Player(playerIndex)));
+                while (sum(playerIndex) <= AI_STOP_POINT) {
+                    log.info("Компьютер решил взять ещё и ему выпала карта {}", printCard(playerIndex));
                     log.info("Сумма его очков: {}", sum(playerIndex));
                 }
                 break;
@@ -119,11 +123,11 @@ public class BlackJack {
         log.info("Сумма ваших очков - {}, компьютера - {}\n", getFinalSum(0), getFinalSum(1));
         switch (result) {
             case 0:
-                log.info("Вы выиграли раунд! Получаете {}$\n", bet);
+                log.info("Вы выиграли раунд! Получаете {}$\n", BET);
                 changeMoney(0, 1);
                 break;
             case 1:
-                log.info("Вы проиграли раунд! Теряете {}$\n", bet);
+                log.info("Вы проиграли раунд! Теряете {}$\n", BET);
                 changeMoney(1, 0);
                 break;
             case 2:
@@ -135,7 +139,7 @@ public class BlackJack {
     }
 
     public static void main() throws IOException {
-        while (!noMoney(0) && !noMoney(1)) {
+        while (hasMoney(0) && hasMoney(1)) {
 
             initRound();
 
@@ -143,17 +147,11 @@ public class BlackJack {
             game(AI);
 
             int playerPoints = getFinalSum(0);
-            int AIPoints = getFinalSum(1);
+            int aiPoints = getFinalSum(1);
 
-            if (playerPoints > AIPoints) {
-                printResult(0);
-            }
-            if (playerPoints < AIPoints) {
-                printResult(1);
-            }
-            if (playerPoints == AIPoints) {
-                printResult(2);
-            }
+            if (playerPoints > aiPoints) printResult(0);
+            if (playerPoints < aiPoints) printResult(1);
+            if (playerPoints == aiPoints) printResult(2);
         }
 
         if (playersMoney[0] > 0) {
