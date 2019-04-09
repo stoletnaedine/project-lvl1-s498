@@ -1,7 +1,6 @@
 package games;
 
 import org.slf4j.Logger;
-
 import java.io.IOException;
 
 public class Choice {
@@ -12,7 +11,7 @@ public class Choice {
     static char getCharacterFromUser() throws IOException {
         byte[] input = new byte[1 + LINE_SEPARATOR.length()];
         if (System.in.read(input) != input.length)
-            throw new RuntimeException("Пользователь ввёл недостаточное кол-во символов");
+            throw new RuntimeException("Что-то не так с вводом");
         return (char) input[0];
     }
 
