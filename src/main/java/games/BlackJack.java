@@ -1,7 +1,6 @@
 package games;
 
 import org.slf4j.Logger;
-
 import java.io.IOException;
 
 import static games.CardUtils.getPar;
@@ -97,12 +96,15 @@ public class BlackJack {
                     log.info("Вам выпала карта {}", printCard(playerIndex));
                 }
                 log.info("Сумма моих очков: {}", sum(playerIndex));
-                while (confirm("Берём еще?")) {
-                    log.info("Вам выпала карта {}", printCard(playerIndex));
-                    log.info("Сумма моих очков: {}", sum(playerIndex));
-                    if (sum(playerIndex) >= PLAYER_STOP_POINT)
-                        break;
-                }
+                if (sum(playerIndex) >= PLAYER_STOP_POINT)
+                    break;
+                else
+                    while (confirm("Берём еще?")) {
+                        log.info("Вам выпала карта {}", printCard(playerIndex));
+                        log.info("Сумма моих очков: {}", sum(playerIndex));
+                        if (sum(playerIndex) >= PLAYER_STOP_POINT)
+                            break;
+                    }
                 break;
             case 1:  // AI
                 for (int i = 0; i < 2; i++) {
