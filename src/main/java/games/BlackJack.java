@@ -90,35 +90,15 @@ public class BlackJack {
     }
 
     static void game(int playerIndex) throws IOException {
-        switch (playerIndex) {
-            case 0:  // player
-                for (int i = 0; i < 2; i++) {
-                    log.info("Вам выпала карта {}", printCard(playerIndex));
-                }
-                log.info("Сумма моих очков: {}", sum(playerIndex));
-                if (sum(playerIndex) >= PLAYER_STOP_POINT)
-                    break;
-                else
-                    while (confirm("Берём еще?")) {
-                        log.info("Вам выпала карта {}", printCard(playerIndex));
-                        log.info("Сумма моих очков: {}", sum(playerIndex));
-                        if (sum(playerIndex) >= PLAYER_STOP_POINT)
-                            break;
-                    }
-                break;
-            case 1:  // AI
-                for (int i = 0; i < 2; i++) {
-                    log.info("Компьютеру выпала карта {}", printCard(playerIndex));
-                }
-                log.info("Сумма его очков: {}", sum(playerIndex));
-                while (sum(playerIndex) <= AI_STOP_POINT) {
-                    log.info("Компьютер решил взять ещё и ему выпала карта {}", printCard(playerIndex));
-                    log.info("Сумма его очков: {}", sum(playerIndex));
-                }
-                break;
-                default:
-                    break;
-        }
+        int sum;
+        if (playerIndex == 0) // player
+            do log.info("Вам выпала карта {}", printCard(playerIndex));
+            while ((sum = sum(playerIndex)) < PLAYER_STOP_POINT
+                    && (sum < 11 || confirm(String.format("Сумма ваших очков: %d. Берём еще?", sum))));
+        else // AI
+            do log.info("Компьютеру выпала карта {}", printCard(playerIndex));
+            while ((sum = sum(playerIndex)) <= AI_STOP_POINT);
+        log.info("Сумма очков: {}", sum);
     }
 
     private static void printResult(int result) {
